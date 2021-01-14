@@ -59,9 +59,28 @@ const Form1 = (props) => {
     setLastName(e.target.value);
   };
 
+  const handleForm2 = () => {
+    props.history.push({
+      pathname: "/form2",
+      state: {
+        listOfItems: [
+          {
+            itemCode: "1",
+            brandName: "xxxxxxxxxxx",
+          },
+          {
+            itemCode: "2",
+            brandName: "rrrrrrrr",
+          },
+        ],
+      },
+    });
+  };
+
   return (
     <React.Fragment>
       <h1>Form 1</h1>
+      <button onClick={() => handleForm2()}>Form 2</button>
       <div>
         {firstName} {lastName}
       </div>

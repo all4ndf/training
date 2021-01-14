@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-const Form2 = () => {
+const Form2 = (props) => {
   const [patientInformation, setPatientInformation] = useState({});
   const [items, setItems] = useState([]);
-
+  const [listOfItems, setListOfItems] = useState([]);
   useEffect(() => {
     setPatientInformation({
       LastName: "Fabular",
@@ -14,6 +14,7 @@ const Form2 = () => {
   }, []);
 
   const handleGetItems = () => {
+    setListOfItems(props.location.state.listOfItems);
     setItems([
       {
         ItemCode: "1",
@@ -53,14 +54,13 @@ const Form2 = () => {
         })}
       </div>
 
-      {/*  {items.map((object, index) => {
-          return (
-            <p key={object.ItemCode}>
-              {object.BrandName} - {object.GenericName}
-            </p>
-          );
-        })}
- */}
+      {listOfItems.map((object, index) => {
+        return (
+          <p key={object.ItemCode}>
+            {object.itemCode} - {object.brandName}
+          </p>
+        );
+      })}
     </React.Fragment>
   );
 };
