@@ -8,8 +8,13 @@ const Form1 = (props) => {
   const [amount, setAmount] = useState(0);
   const [patientInformation, setPatientInformation] = useState({});
   const [patients, setPatients] = useState([]);
+  const [patientNo, setPatientNo] = useState("");
+
   useEffect(() => {
     handleGetPatientInformation();
+    console.log(props);
+
+    setPatientNo(props.location.state.patientNo);
   }, []);
 
   useEffect(() => {
@@ -75,6 +80,7 @@ const Form1 = (props) => {
           );
         })}
       </div>
+      <div>{patientNo}</div>
 
       <form>
         <div>
