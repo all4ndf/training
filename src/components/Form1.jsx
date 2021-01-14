@@ -76,7 +76,10 @@ const Form1 = (props) => {
       },
     });
   };
-
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    console.log(e);
+  };
   return (
     <React.Fragment>
       <h1>Form 1</h1>
@@ -101,7 +104,7 @@ const Form1 = (props) => {
       </div>
       <div>{patientNo}</div>
 
-      <form>
+      <form onSubmit={handleSubmitForm}>
         <div>
           <label>Lastname:</label>
           <input
@@ -133,6 +136,7 @@ const Form1 = (props) => {
             onChange={(e) => setUnitPrice(e.target.value)}
           />
         </div>
+        <button type="submit">Submit</button>
       </form>
     </React.Fragment>
   );
