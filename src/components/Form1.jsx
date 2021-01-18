@@ -108,6 +108,7 @@ const Form1 = (props) => {
         <div>
           <label>Lastname:</label>
           <input
+            className="input"
             type="text"
             name="lastName"
             onChange={(e) => handleChangeLastname(e)}
@@ -116,12 +117,13 @@ const Form1 = (props) => {
 
         <div>
           <label>Firstname:</label>
-          <input type="text" name="firstName" />
+          <input className="input" type="text" name="firstName" />
         </div>
 
         <div>
           <label>Qty:</label>
           <input
+            className="input"
             type="number"
             name="qty"
             onChange={(e) => setQty(e.target.value)}
@@ -131,12 +133,15 @@ const Form1 = (props) => {
         <div>
           <label>Unit price:</label>
           <input
+            className="input"
             type="number"
             name="unitPrice"
             onChange={(e) => setUnitPrice(e.target.value)}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button className="btn" type="submit">
+          Submit
+        </button>
       </form>
     </React.Fragment>
   );

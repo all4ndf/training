@@ -14,11 +14,23 @@ const App = (props) => {
     });
   };
   return (
-    <div>
+    <div className="p-3">
       <h1>App Js</h1>
-      <button onClick={() => handleNavigatePage("/")}>Home</button>
-      <button onClick={() => handleNavigateForm1()}>Form1</button>
-      <button onClick={() => handleNavigatePage("/form2")}>Form2</button>
+      <div className="space-x-2">
+        <button className="btn" onClick={() => handleNavigatePage("/")}>
+          Home
+        </button>
+        <button className="btn" onClick={() => handleNavigateForm1()}>
+          Form1
+        </button>
+        <button
+          className="btn"
+          onClick={() => handleNavigatePage("/formantdesign")}
+        >
+          Form Ant Design
+        </button>
+      </div>
+
       <Routes />
     </div>
   );
