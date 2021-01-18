@@ -11,9 +11,11 @@ import {
   Select,
   AutoComplete,
   Radio,
+  Upload,
 } from "antd";
-import moment from "moment";
 
+import moment from "moment";
+const { TextArea } = Input;
 const { Option } = Select;
 const SampleForm1 = (props) => {
   const [formPatientInformation] = Form.useForm();
@@ -227,7 +229,9 @@ const SampleForm1 = (props) => {
               >
                 <Input />
               </Form.Item>
-
+              <Form.Item label="Remarks" name="Remarks">
+                <TextArea rows={4} />
+              </Form.Item>
               <Form.Item {...tailLayout}>
                 <Button loading={isSubmitting} type="primary" htmlType="submit">
                   Submit
