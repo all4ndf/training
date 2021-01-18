@@ -5,6 +5,7 @@ import Form2 from "./Form2";
 import Home from "./Home";
 import Form3 from "./Form3";
 import FormAntDesign from "./FormAntDesign";
+import SampleForm1 from "./SampleForm1";
 const Routes = () => {
   return (
     <Switch>
@@ -39,6 +40,14 @@ const Routes = () => {
         path="/formantdesign"
         component={FormAntDesign}
         render={() => <FormAntDesign />}
+      />
+
+      <Route
+        exact
+        strict
+        path="/sampleform1"
+        component={SampleForm1}
+        render={() => <SampleForm1 />}
       />
     </Switch>
   );

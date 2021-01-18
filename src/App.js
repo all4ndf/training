@@ -29,6 +29,13 @@ const App = (props) => {
         >
           Form Ant Design
         </button>
+
+        <button
+          className="btn"
+          onClick={() => handleNavigatePage("/sampleform1")}
+        >
+          Sample Form 1
+        </button>
       </div>
 
       <Routes />
