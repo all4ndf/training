@@ -1,7 +1,16 @@
 import React from "react";
-import { Row, Col, Card, Form, Input, DatePicker } from "antd";
+import { Row, Col, Card, Form, Input, DatePicker, Button, message } from "antd";
 import moment from "moment";
 const SampleForm1 = (props) => {
+  const handleSubmitForm = async (values) => {
+    message.success("Valid form to be submitted!");
+    console.log(values);
+  };
+
+  const handleOnFinishFailed = (errorInfo) => {
+    console.log(errorInfo);
+    message.error("Please check required fields!");
+  };
   return (
     <>
       <Row gutter={[12, 12]}>
@@ -12,12 +21,10 @@ const SampleForm1 = (props) => {
             style={{ width: "100%", background: "#fae6ff" }}
             hoverable
           >
-            {/*           LastName
-          FirstName
-          MiddleName
-          BirthDate */}
-
-            <Form>
+            <Form
+              onFinish={handleSubmitForm}
+              onFinishFailed={handleOnFinishFailed}
+            >
               <Form.Item
                 label="Lastname"
                 name="LastName"
@@ -78,6 +85,12 @@ const SampleForm1 = (props) => {
                   format={"MM/DD/yyyy"}
                   defaultValue={moment(new Date(), "MM/DD/yyyy")}
                 />
+              </Form.Item>
+
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
               </Form.Item>
             </Form>
           </Card>
