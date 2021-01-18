@@ -1,16 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Form, Input, DatePicker, Button, message } from "antd";
 import moment from "moment";
 const SampleForm1 = (props) => {
+  const [formPatientInformation] = Form.useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmitForm = async (values) => {
+    setIsSubmitting(true);
     message.success("Valid form to be submitted!");
     console.log(values);
+
+    setIsSubmitting(false);
   };
 
   const handleOnFinishFailed = (errorInfo) => {
     console.log(errorInfo);
     message.error("Please check required fields!");
   };
+
+  const handleGetPatientInformation = () => {
+    //    function to get data from api
+
+    const data = {
+      LastName: "Fabular",
+      FirstName: "Allan",
+      MiddleName: "Delola",
+      DateOfBirth: "12/12/1990",
+      EmailAddress: "allan@comlogik.com",
+    };
+
+    formPatientInformation.setFieldsValue({
+      LastName: data.LastName,
+      FirstName: data.FirstName,
+      MiddleName: data.MiddleName,
+      DateOfBirth: moment(new Date(data.DateOfBirth), "MM/DD/yyyy"),
+      EmailAddress: data.EmailAddress,
+    });
+  };
+
+  useEffect(() => {
+    handleGetPatientInformation();
+  }, []);
+
   return (
     <>
       <Row gutter={[12, 12]}>
@@ -24,6 +54,7 @@ const SampleForm1 = (props) => {
             <Form
               onFinish={handleSubmitForm}
               onFinishFailed={handleOnFinishFailed}
+              form={formPatientInformation}
             >
               <Form.Item
                 label="Lastname"
@@ -105,7 +136,7 @@ const SampleForm1 = (props) => {
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button loading={isSubmitting} type="primary" htmlType="submit">
                   Submit
                 </Button>
               </Form.Item>
