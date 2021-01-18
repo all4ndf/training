@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Form, Input, DatePicker, Button, message } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  Input,
+  DatePicker,
+  Button,
+  message,
+  Select,
+  AutoComplete,
+  Radio,
+} from "antd";
 import moment from "moment";
+
+const { Option } = Select;
 const SampleForm1 = (props) => {
   const [formPatientInformation] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [sex, setSex] = useState([]);
+  const [religion, setReligion] = useState([]);
   const handleSubmitForm = async (values) => {
     setIsSubmitting(true);
     message.success("Valid form to be submitted!");
@@ -15,6 +31,21 @@ const SampleForm1 = (props) => {
   const handleOnFinishFailed = (errorInfo) => {
     console.log(errorInfo);
     message.error("Please check required fields!");
+  };
+
+  const layout = {
+    labelCol: {
+      span: 5,
+    },
+    wrapperCol: {
+      span: 19,
+    },
+  };
+  const tailLayout = {
+    wrapperCol: {
+      offset: 5,
+      span: 19,
+    },
   };
 
   const handleGetPatientInformation = () => {
@@ -37,7 +68,30 @@ const SampleForm1 = (props) => {
     });
   };
 
+  const handleGetInitialValues = () => {
+    setSex([
+      {
+        value: "M",
+        description: "Male",
+      },
+      {
+        value: "F",
+        description: "Female",
+      },
+    ]);
+
+    setReligion([
+      {
+        value: "Roman Catholic",
+      },
+      {
+        value: "Born Again Christian",
+      },
+    ]);
+  };
+
   useEffect(() => {
+    handleGetInitialValues();
     handleGetPatientInformation();
   }, []);
 
@@ -55,6 +109,7 @@ const SampleForm1 = (props) => {
               onFinish={handleSubmitForm}
               onFinishFailed={handleOnFinishFailed}
               form={formPatientInformation}
+              {...layout}
             >
               <Form.Item
                 label="Lastname"
@@ -119,6 +174,44 @@ const SampleForm1 = (props) => {
               </Form.Item>
 
               <Form.Item
+                label="Sex"
+                name="Sex"
+                rules={[
+                  {
+                    required: true,
+                    message: "Sex is required!",
+                  },
+                ]}
+              >
+                <Select allowClear>
+                  {sex.map((d) => (
+                    <Option key={d.value}>{d.description}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
+
+              <Form.Item label="Religion" name="Religion">
+                <AutoComplete
+                  value="value"
+                  options={religion}
+                  placeholder="Please select"
+                  filterOption={(inputValue, option) =>
+                    option.value
+                      .toUpperCase()
+                      .indexOf(inputValue.toUpperCase()) !== -1
+                  }
+                />
+              </Form.Item>
+
+              <Form.Item label="Blood type" name="BloodType">
+                <Radio.Group>
+                  <Radio value={"A"}>A</Radio>
+                  <Radio value={"O"}>O</Radio>
+                  <Radio value={"O+"}>O+</Radio>
+                </Radio.Group>
+              </Form.Item>
+
+              <Form.Item
                 label="Email Address"
                 name="EmailAddress"
                 rules={[
@@ -135,7 +228,7 @@ const SampleForm1 = (props) => {
                 <Input />
               </Form.Item>
 
-              <Form.Item>
+              <Form.Item {...tailLayout}>
                 <Button loading={isSubmitting} type="primary" htmlType="submit">
                   Submit
                 </Button>
