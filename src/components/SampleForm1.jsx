@@ -22,6 +22,7 @@ const SampleForm1 = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sex, setSex] = useState([]);
   const [religion, setReligion] = useState([]);
+  const [isMiddleNameRequired, setIsMiddlenameRequired] = useState(false);
   const handleSubmitForm = async (values) => {
     setIsSubmitting(true);
     message.success("Valid form to be submitted!");
@@ -92,6 +93,15 @@ const SampleForm1 = (props) => {
     ]);
   };
 
+  const handleChangeSex = (value) => {
+    console.log(value);
+    if (value === "F") {
+      setIsMiddlenameRequired(true);
+    } else {
+      setIsMiddlenameRequired(false);
+    }
+  };
+
   useEffect(() => {
     handleGetInitialValues();
     handleGetPatientInformation();
@@ -151,6 +161,9 @@ const SampleForm1 = (props) => {
                 name="MiddleName"
                 rules={[
                   {
+                    required: isMiddleNameRequired,
+                  },
+                  {
                     max: 50,
                     message: "Middlename must be 50 char(s) only!",
                   },
@@ -185,7 +198,7 @@ const SampleForm1 = (props) => {
                   },
                 ]}
               >
-                <Select allowClear>
+                <Select allowClear onChange={handleChangeSex}>
                   {sex.map((d) => (
                     <Option key={d.value}>{d.description}</Option>
                   ))}
