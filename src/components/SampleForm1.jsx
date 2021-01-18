@@ -87,6 +87,23 @@ const SampleForm1 = (props) => {
                 />
               </Form.Item>
 
+              <Form.Item
+                label="Email Address"
+                name="EmailAddress"
+                rules={[
+                  {
+                    required: true,
+                    message: "Email address is required!",
+                  },
+                  {
+                    type: "email",
+                    message: "Invalid email address!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Submit
