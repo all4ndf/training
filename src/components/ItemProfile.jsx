@@ -32,7 +32,9 @@ const ItemProfile = () => {
       span: 19,
     },
   };
-  const handleSubmitForm = () => {};
+  const handleSubmitForm = (values) => {
+    console.log(values);
+  };
 
   const handleOnFinishFailed = () => {};
 
