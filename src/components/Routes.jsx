@@ -6,6 +6,8 @@ import Home from "./Home";
 import Form3 from "./Form3";
 import FormAntDesign from "./FormAntDesign";
 import SampleForm1 from "./SampleForm1";
+import ItemProfile from "./ItemProfile";
+
 const Routes = () => {
   return (
     <Switch>
@@ -48,6 +50,14 @@ const Routes = () => {
         path="/sampleform1"
         component={SampleForm1}
         render={() => <SampleForm1 />}
+      />
+
+      <Route
+        exact
+        strict
+        path="/itemprofile"
+        component={ItemProfile}
+        render={() => <ItemProfile />}
       />
     </Switch>
   );

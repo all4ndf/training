@@ -36,6 +36,13 @@ const App = (props) => {
         >
           Sample Form 1
         </button>
+
+        <button
+          className="btn"
+          onClick={() => handleNavigatePage("/itemprofile")}
+        >
+          Item Profile
+        </button>
       </div>
 
       <Routes />
