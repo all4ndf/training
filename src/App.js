@@ -43,6 +43,13 @@ const App = (props) => {
         >
           Item Profile
         </button>
+
+        <button
+          className="btn"
+          onClick={() => handleNavigatePage("/chargeform")}
+        >
+          Charge Form
+        </button>
       </div>
 
       <Routes />
