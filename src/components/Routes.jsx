@@ -8,6 +8,7 @@ import FormAntDesign from "./FormAntDesign";
 import SampleForm1 from "./SampleForm1";
 import ItemProfile from "./ItemProfile";
 import ChargeForm from "./ChargeForm";
+import GeneralJournal from "./GeneralJournal";
 const Routes = () => {
   return (
     <Switch>
@@ -66,6 +67,14 @@ const Routes = () => {
         path="/chargeform"
         component={ChargeForm}
         render={() => <ChargeForm />}
+      />
+
+      <Route
+        exact
+        strict
+        path="/generaljournal"
+        component={GeneralJournal}
+        render={() => <GeneralJournal />}
       />
     </Switch>
   );

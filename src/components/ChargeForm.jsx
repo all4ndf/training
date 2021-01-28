@@ -7,10 +7,12 @@ import {
   InputNumber,
   message,
   Popconfirm,
+  Input,
 } from "antd";
 import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 const ChargeForm = () => {
   const [listOfCharges, setListOfCharges] = useState([]);
+  const [filteredCharges, setFilteredCharges] = useState([]);
   const [addedCharges, setAddedCharges] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [price, setPrice] = useState(0);
@@ -19,6 +21,7 @@ const ChargeForm = () => {
   const [itemIdSelected, setItemIdSelected] = useState("");
   const [itemIdToBeRemoved, setItemIdToBeRemoved] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
+  const [searchStr, setSearchStr] = useState("");
 
   const tableCol1 = [
     {
@@ -136,6 +139,7 @@ const ChargeForm = () => {
         Price: 50,
       },
     ]);
+    setFilteredCharges(listOfCharges);
   }, []);
   const handleAddCharge = () => {
     //Test if qty and selling price are valid
@@ -178,6 +182,25 @@ const ChargeForm = () => {
     setTotalAmount(sum.toFixed(2));
   }, [addedCharges]);
 
+  const handleChangeSearchStr = (e) => {
+    setSearchStr(e.target.value);
+
+    if (searchStr === "") {
+      setFilteredCharges(listOfCharges);
+      return;
+    }
+
+    const filteredData = listOfCharges.filter((item) => {
+      return Object.keys(item).some((key) =>
+        item[key]
+          .toString()
+          .toLowerCase()
+          .includes(e.target.value.toLowerCase().trim())
+      );
+    });
+    setFilteredCharges(filteredData);
+  };
+
   return (
     <>
       <div className="font-semibold text-2xl text-center">Charge Form</div>
@@ -185,9 +208,15 @@ const ChargeForm = () => {
         <div className="border shadow-md p-2">
           <div className="text-center  font-semibold">List of Charges</div>
           <div>
+            <Input
+              value={searchStr}
+              onChange={(value) => handleChangeSearchStr(value)}
+            />
+          </div>
+          <div>
             <Table
               columns={tableCol1}
-              dataSource={listOfCharges}
+              dataSource={filteredCharges}
               pagination={false}
             />
           </div>
