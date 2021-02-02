@@ -9,6 +9,7 @@ import SampleForm1 from "./SampleForm1";
 import ItemProfile from "./ItemProfile";
 import ChargeForm from "./ChargeForm";
 import GeneralJournal from "./GeneralJournal";
+import FormRedux from "./FormRedux";
 const Routes = () => {
   return (
     <Switch>
@@ -75,6 +76,14 @@ const Routes = () => {
         path="/generaljournal"
         component={GeneralJournal}
         render={() => <GeneralJournal />}
+      />
+
+      <Route
+        exact
+        strict
+        path="/formredux"
+        component={FormRedux}
+        render={() => <FormRedux />}
       />
     </Switch>
   );

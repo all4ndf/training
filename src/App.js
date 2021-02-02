@@ -1,7 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import Routes from "./components/Routes";
+import { useSelector } from "react-redux";
 const App = (props) => {
+  const counter = useSelector((state) => state.count);
+  const userDetails = useSelector((state) => state.userDetails);
   const handleNavigatePage = (path) => {
     props.history.push(path);
   };
@@ -16,6 +19,10 @@ const App = (props) => {
   return (
     <div className="p-3">
       <h1>App Js</h1>
+      {counter}
+      <div className="font-semibold">{userDetails.username}</div>
+      <div className="font-semibold">{userDetails.fullname}</div>
+
       <div className="space-x-2">
         <button className="btn" onClick={() => handleNavigatePage("/")}>
           Home
@@ -56,6 +63,13 @@ const App = (props) => {
           onClick={() => handleNavigatePage("/generaljournal")}
         >
           General Journal
+        </button>
+
+        <button
+          className="btn"
+          onClick={() => handleNavigatePage("/formredux")}
+        >
+          Redux Form
         </button>
       </div>
 
