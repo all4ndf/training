@@ -10,6 +10,8 @@ import ItemProfile from "./ItemProfile";
 import ChargeForm from "./ChargeForm";
 import GeneralJournal from "./GeneralJournal";
 import FormRedux from "./FormRedux";
+import UserInformation from "./UserInformation";
+import Users from "./Users";
 const Routes = () => {
   return (
     <Switch>
@@ -84,6 +86,22 @@ const Routes = () => {
         path="/formredux"
         component={FormRedux}
         render={() => <FormRedux />}
+      />
+
+      <Route
+        exact
+        strict
+        path="/userinformation"
+        component={UserInformation}
+        render={() => <UserInformation />}
+      />
+
+      <Route
+        exact
+        strict
+        path="/users"
+        component={Users}
+        render={() => <Users />}
       />
     </Switch>
   );

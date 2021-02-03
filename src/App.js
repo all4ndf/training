@@ -71,6 +71,10 @@ const App = (props) => {
         >
           Redux Form
         </button>
+
+        <button className="btn" onClick={() => handleNavigatePage("/users")}>
+          Users
+        </button>
       </div>
 
       <Routes />
