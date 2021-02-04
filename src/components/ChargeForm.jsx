@@ -23,7 +23,7 @@ const ChargeForm = () => {
   const [itemIdToBeRemoved, setItemIdToBeRemoved] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
   const [searchStr, setSearchStr] = useState("");
-
+  const [ChargeSlipNo, setChargeSlipNo] = useState("");
   const tableCol1 = [
     {
       title: "",
@@ -219,7 +219,8 @@ const ChargeForm = () => {
     try {
       const response = await axios.post("/api/savecharge", valuesToSave);
       if (response.data.stat === 1) {
-        message.success(response.data.message);
+        setChargeSlipNo(response.data.message);
+        message.success("Successfully saved!");
       } else {
         message.warning(response.data.message);
       }
@@ -249,7 +250,9 @@ const ChargeForm = () => {
         </div>
         <div className="border shadow-md p-2">
           <div className="text-center  font-semibold">Added Charges</div>
-
+          <div className="font-semibold mt-2">
+            Charge Slip No:{ChargeSlipNo}
+          </div>
           <Table
             columns={tableCol2}
             dataSource={addedCharges}
