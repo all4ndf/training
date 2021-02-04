@@ -34,6 +34,8 @@ const ItemProfile = () => {
   };
   const handleSubmitForm = (values) => {
     console.log(values);
+    const valuesToSave = { ...values, ForSale: isForSale };
+    console.log(valuesToSave);
   };
 
   const handleOnFinishFailed = () => {};

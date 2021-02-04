@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Table,
   Tooltip,
@@ -201,6 +202,31 @@ const ChargeForm = () => {
     setFilteredCharges(filteredData);
   };
 
+  const handleSaveCharge = async () => {
+    if (addedCharges.length <= 0) {
+      message.warning("Please encode charges to save!");
+      return;
+    }
+
+    axios.defaults.baseURL = "http://localhost:53017/";
+
+    const valuesToSave = {
+      CaseNo: "21000001",
+      DeptCode: "LAB",
+      addedCharges: addedCharges,
+    };
+
+    try {
+      const response = await axios.post("/api/savecharge", valuesToSave);
+      if (response.data.stat === 1) {
+        message.success(response.data.message);
+      } else {
+        message.warning(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="font-semibold text-2xl text-center">Charge Form</div>
@@ -230,6 +256,11 @@ const ChargeForm = () => {
             pagination={false}
           />
           <div className="font-bold">Total Amount:{totalAmount}</div>
+          <div>
+            <Button type="primary" onClick={handleSaveCharge}>
+              Save
+            </Button>
+          </div>
         </div>
       </div>
 

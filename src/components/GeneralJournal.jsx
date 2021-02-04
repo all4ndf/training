@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Table,
   Tooltip,
@@ -216,6 +217,36 @@ const GeneralJournal = () => {
     setTotalCredit(totalcredit.toFixed(2));
   };
 
+  const handleSaveGeneralJournal = async () => {
+    if (addedEntries.length <= 0) {
+      message.warning("Please add entries to save!");
+      return;
+    }
+
+    console.log(addedEntries);
+
+    axios.defaults.baseURL = "http://localhost:53017/";
+
+    const valuesToSave = {
+      sourceDoc: "GJ",
+      journalEntries: addedEntries,
+    };
+
+    try {
+      const response = await axios.post(
+        "/api/savegeneraljournal",
+        valuesToSave
+      );
+      if (response.data.stat === 1) {
+        message.success(response.data.message);
+      } else {
+        message.warning(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="font-semibold text-2xl text-center">General Journal</div>
@@ -244,6 +275,11 @@ const GeneralJournal = () => {
             <div className="font-semibold">Totals </div>
             <div className="font-semibold">Debit:{totalDebit}</div>
             <div className="font-semibold">Credit:{totalCredit}</div>
+          </div>
+          <div className="flex  mt-2 ml-4">
+            <Button type="primary" onClick={handleSaveGeneralJournal}>
+              Save
+            </Button>
           </div>
         </div>
       </div>
