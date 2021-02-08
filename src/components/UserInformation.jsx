@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Form, Row, Input, Button, Card, message } from "antd";
 import axios from "axios";
 const UserInformation = (props) => {
   const [formUserInformation] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [Id, setId] = useState("");
   const layout = {
     labelCol: {
       span: 5,
@@ -23,8 +24,13 @@ const UserInformation = (props) => {
 
     axios.defaults.baseURL = "http://localhost:53017/";
 
+    const valuesToSave = { ...values, Id: Id };
+
     try {
-      const response = await axios.post("/api/saveuserinformation", values);
+      const response = await axios.post(
+        "/api/saveuserinformation",
+        valuesToSave
+      );
       if (response.data.stat === 1) {
         message.success(response.data.message);
         props.history.push("/users");
@@ -36,6 +42,35 @@ const UserInformation = (props) => {
     }
   };
   const handleOnFinishFailed = () => {};
+
+  const handleGetUserDetails = async () => {
+    axios.defaults.baseURL = "http://localhost:53017/";
+    const response = await axios.get("/api/getuserdetails", {
+      params: {
+        Id: props.location.state.Id,
+      },
+    });
+
+    if (response) {
+      console.log(response);
+
+      formUserInformation.setFieldsValue({
+        Username: response.data.Username,
+        Fullname: response.data.Fullname,
+        EmailAddress: response.data.EmailAddress,
+        MobileNo: response.data.MobileNo,
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log(props);
+    setId(props.location.state.Id);
+
+    if (props.location.state.Id !== "") {
+      handleGetUserDetails();
+    }
+  }, []);
   return (
     <>
       <div style={{ marginTop: 10 }}>
@@ -66,7 +101,7 @@ const UserInformation = (props) => {
                     },
                   ]}
                 >
-                  <Input />
+                  <Input disabled={Id !== ""} />
                 </Form.Item>
                 <Form.Item
                   label="Fullname"
