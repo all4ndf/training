@@ -9,6 +9,7 @@ import {
   message,
   Popconfirm,
   Input,
+  Space,
 } from "antd";
 import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 const ChargeForm = () => {
@@ -24,6 +25,7 @@ const ChargeForm = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [searchStr, setSearchStr] = useState("");
   const [ChargeSlipNo, setChargeSlipNo] = useState("");
+  const [Id, setId] = useState("");
   const tableCol1 = [
     {
       title: "",
@@ -202,6 +204,50 @@ const ChargeForm = () => {
     setFilteredCharges(filteredData);
   };
 
+  const handlePrint = async () => {
+    const isExcel = true;
+    try {
+      const response = await axios({
+        url: "http://localhost:53017/api/downloadreport", //your url
+        method: "GET",
+        responseType: "blob", // important
+        params: {
+          reportName: "chargeslip2.rpt",
+          param1: Id,
+          isExcel: isExcel,
+        },
+      });
+
+      if (response) {
+        let newBlob;
+
+        if (isExcel === false) {
+          newBlob = new Blob([response.data], {
+            type: "application/pdf",
+          });
+        } else {
+          newBlob = new Blob([response.data], {
+            type: "application/excel",
+          });
+        }
+
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveOrOpenBlob(newBlob);
+          return;
+        }
+
+        const data = window.URL.createObjectURL(newBlob);
+
+        window.open(data, "_blank");
+        setTimeout(function () {
+          window.URL.revokeObjectURL(data);
+        }, 100);
+      }
+    } catch (error) {
+      return { Status: 0, Message: error.response.data.Message };
+    }
+  };
+
   const handleSaveCharge = async () => {
     if (addedCharges.length <= 0) {
       message.warning("Please encode charges to save!");
@@ -218,8 +264,10 @@ const ChargeForm = () => {
 
     try {
       const response = await axios.post("/api/savecharge", valuesToSave);
+
       if (response.data.stat === 1) {
         setChargeSlipNo(response.data.message);
+        setId(response.data.param.Id);
         message.success("Successfully saved!");
       } else {
         message.warning(response.data.message);
@@ -253,6 +301,7 @@ const ChargeForm = () => {
           <div className="font-semibold mt-2">
             Charge Slip No:{ChargeSlipNo}
           </div>
+          <div className="font-semibold mt-2">Id:{Id}</div>
           <Table
             columns={tableCol2}
             dataSource={addedCharges}
@@ -260,9 +309,14 @@ const ChargeForm = () => {
           />
           <div className="font-bold">Total Amount:{totalAmount}</div>
           <div>
-            <Button type="primary" onClick={handleSaveCharge}>
-              Save
-            </Button>
+            <Space>
+              <Button type="primary" onClick={handleSaveCharge}>
+                Save
+              </Button>
+              <Button type="primary" onClick={handlePrint}>
+                Print
+              </Button>
+            </Space>
           </div>
         </div>
       </div>
