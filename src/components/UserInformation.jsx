@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Col, Form, Row, Input, Button, Card, message } from "antd";
+import {
+  Col,
+  Form,
+  Row,
+  Input,
+  Button,
+  Card,
+  message,
+  Select,
+  AutoComplete,
+} from "antd";
 import axios from "axios";
+
+const { Option } = Select;
 const UserInformation = (props) => {
   const [formUserInformation] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [Id, setId] = useState("");
+  const [sex, setSex] = useState([]);
+  const [occupations, setOccupations] = useState([]);
   const layout = {
     labelCol: {
       span: 5,
@@ -63,10 +77,33 @@ const UserInformation = (props) => {
     }
   };
 
+  const handleInitialValues = async () => {
+    let response = await axios.get("http://localhost:53017/api/getsettings", {
+      params: {
+        code: "SEX",
+      },
+    });
+
+    if (response) {
+      setSex(response.data);
+    }
+
+    response = await axios.get("http://localhost:53017/api/getsettings", {
+      params: {
+        code: "OCC",
+      },
+    });
+
+    if (response) {
+      console.log(response.data);
+      setOccupations(response.data);
+    }
+  };
+
   useEffect(() => {
     console.log(props);
     setId(props.location.state.Id);
-
+    handleInitialValues();
     if (props.location.state.Id !== "") {
       handleGetUserDetails();
     }
@@ -118,6 +155,58 @@ const UserInformation = (props) => {
                 >
                   <Input />
                 </Form.Item>
+
+                <Form.Item
+                  label="Fullname"
+                  name="Fullname"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Fullname is required!",
+                    },
+                    {
+                      max: 100,
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Sex"
+                  name="Sex"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Required field!",
+                    },
+                  ]}
+                >
+                  <Select>
+                    {sex.map((d) => (
+                      <Option key={d.Value}>{d.Description}</Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+
+                <Form.Item label="Occupation" name="occupation">
+                  <AutoComplete
+                    value="Description"
+                    options={occupations}
+                    placeholder="Please select"
+                    filterOption={(inputValue, option) =>
+                      option.value
+                        .toUpperCase()
+                        .indexOf(inputValue.toUpperCase()) !== -1
+                    }
+                    rules={[
+                      {
+                        required: false,
+                        message: "Required field!",
+                      },
+                    ]}
+                  />
+                </Form.Item>
+
                 <Form.Item
                   label="Email Address"
                   name="EmailAddress"

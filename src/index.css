@@ -2,13 +2,13 @@
 
 @tailwind components;
 
-.btn {
+/* .btn {
   @apply border-2 border-purple-500 hover:border-gray-500;
 }
 
 .input {
   @apply bg-gray-200 border-2 border-purple-500;
-}
+} */
 
 @tailwind utilities;
 
